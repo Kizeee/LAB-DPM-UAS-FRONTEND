@@ -42,8 +42,8 @@ export default function LoginScreen() {
         <PaperProvider>
             <ThemedView style={styles.container}>
                 <Image source={require("../../assets/images/logo.png")} style={styles.logo} />
-                <Text style={styles.title}>Welcome Back!</Text>
-                <Text style={styles.subtitle}>masuk untuk melanjutkan</Text>
+                <Text style={styles.title}>Welcome To Easycontact</Text>
+                <Text style={styles.subtitle}>LOGIN UNTUK MELANJUTKAN</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Username"

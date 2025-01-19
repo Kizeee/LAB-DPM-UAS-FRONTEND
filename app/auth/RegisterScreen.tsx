@@ -29,7 +29,7 @@ export default function RegisterScreen() {
         <PaperProvider>
             <ThemedView style={styles.container}>
                 <Text style={styles.title}>Create an Account</Text>
-                <Text style={styles.subtitle}>Join us and get started</Text>
+                <Text style={styles.subtitle}>buat daftar kontak anda sendiri</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Username"

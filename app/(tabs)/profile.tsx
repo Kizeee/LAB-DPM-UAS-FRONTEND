@@ -96,7 +96,7 @@ const ProfileScreen = () => {
     return (
       <PaperProvider>
         <ThemedView style={styles.container}>
-          <ActivityIndicator animating={true} size="large" color="#6200ee" />
+          <ActivityIndicator animating={true} size="large" color="#1976d2" />
         </ThemedView>
       </PaperProvider>
     );
@@ -119,19 +119,25 @@ const ProfileScreen = () => {
                 </TouchableOpacity>
               </View>
               <ThemedText style={styles.title}>
-                Hello, {profile.username}!
+                Welcome, {profile.username}!
               </ThemedText>
-              <ThemedText style={styles.subtitle}>Your Profile</ThemedText>
-              <ThemedText style={styles.label}>Username:</ThemedText>
-              <ThemedText style={styles.value}>{profile.username}</ThemedText>
-              <ThemedText style={styles.label}>Email:</ThemedText>
-              <ThemedText style={styles.value}>{profile.email}</ThemedText>
+              <ThemedText style={styles.subtitle}>User Information</ThemedText>
+              <View style={styles.infoContainer}>
+                <View style={styles.infoRow}>
+                  <ThemedText style={styles.label}>Username:</ThemedText>
+                  <ThemedText style={styles.value}>{profile.username}</ThemedText>
+                </View>
+                <View style={styles.infoRow}>
+                  <ThemedText style={styles.label}>Email:</ThemedText>
+                  <ThemedText style={styles.value}>{profile.email}</ThemedText>
+                </View>
+              </View>
               <Button
                 mode="contained"
                 onPress={handleLogout}
                 style={styles.logoutButton}
               >
-                Log Out
+                Logout
               </Button>
             </Card.Content>
           </Card>
@@ -139,22 +145,20 @@ const ProfileScreen = () => {
           <ThemedText>No profile data available</ThemedText>
         )}
         <Portal>
-          {/* Logout Dialog */}
           <Dialog
             visible={dialogVisible}
             onDismiss={() => setDialogVisible(false)}
           >
-            <Dialog.Title>Logout</Dialog.Title>
+            <Dialog.Title>Logout Confirmation</Dialog.Title>
             <Dialog.Content>
               <Text>Are you sure you want to logout?</Text>
             </Dialog.Content>
             <Dialog.Actions>
               <Button onPress={() => setDialogVisible(false)}>Cancel</Button>
-              <Button onPress={confirmLogout}>OK</Button>
+              <Button onPress={confirmLogout}>Confirm</Button>
             </Dialog.Actions>
           </Dialog>
 
-          {/* Avatar Selection Dialog */}
           <Dialog
             visible={avatarModalVisible}
             onDismiss={() => setAvatarModalVisible(false)}
@@ -194,66 +198,77 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    padding: 16,
-    backgroundColor: "#f5f5f5",
+    alignItems: "center",
+    padding: 20,
+    backgroundColor: "#e3f2fd",
   },
   card: {
-    padding: 16,
-    borderRadius: 16,
+    width: "100%",
+    maxWidth: 400,
+    borderRadius: 12,
     backgroundColor: "#ffffff",
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 10,
-    elevation: 3,
+    elevation: 5,
+    padding: 16,
   },
   avatarContainer: {
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: 20,
   },
   avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    borderWidth: 3,
+    borderColor: "#1976d2",
   },
   avatarOptions: {
     flexDirection: "row",
     justifyContent: "center",
-    paddingVertical: 8,
+    paddingVertical: 10,
   },
   avatarOption: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    marginHorizontal: 8,
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    marginHorizontal: 10,
     borderWidth: 2,
-    borderColor: "#ddd",
+    borderColor: "#bbb",
   },
   title: {
-    fontSize: 22,
-    fontWeight: "bold",
+    fontSize: 24,
+    fontWeight: "700",
     textAlign: "center",
-    color: "#6200ee",
-    marginBottom: 8,
+    color: "#0d47a1",
+    marginBottom: 10,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 18,
     textAlign: "center",
-    color: "#888",
-    marginBottom: 16,
+    color: "#555",
+    marginBottom: 20,
+  },
+  infoContainer: {
+    marginBottom: 20,
+  },
+  infoRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
   },
   label: {
     fontSize: 16,
-    fontWeight: "bold",
-    color: "#444",
-    marginTop: 8,
+    fontWeight: "600",
+    color: "#333",
   },
   value: {
     fontSize: 16,
     color: "#666",
   },
   logoutButton: {
-    marginTop: 24,
-    backgroundColor: "#6200ee",
+    backgroundColor: "#1976d2",
   },
 });
 

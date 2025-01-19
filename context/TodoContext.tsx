@@ -1,6 +1,5 @@
-import React, {createContext, useContext, useState, useEffect, ReactNode} from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_URL from '@/config/config';
 
 type Todo = {
@@ -11,28 +10,27 @@ type Todo = {
 
 type TodoContextType = {
     todos: Todo[];
-    fetchTodos: () => void;
-    updateTodo: (updatedTodo: Todo) => void;
-};
-
-type TodoProviderProps = {
-    children: ReactNode;
+    exploreTodos: Todo[];
+    fetchTodos: () => Promise<void>;
+    updateTodo: (todo: Todo) => void;
+    addToExplore: (todo: Todo) => void;
+    deleteTodo: (id: string) => Promise<void>; // Fungsi untuk menghapus kontak
 };
 
 const TodoContext = createContext<TodoContextType | undefined>(undefined);
 
-export const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
+export const TodoProvider = ({ children }: { children: ReactNode }) => {
     const [todos, setTodos] = useState<Todo[]>([]);
+    const [exploreTodos, setExploreTodos] = useState<Todo[]>([]);
 
     const fetchTodos = async () => {
         try {
-            const token = await AsyncStorage.getItem('token');
-            const response = await axios.get<{ data: Todo[] }>(`${API_URL}/api/todos`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            setTodos(response.data.data);
+            const response = await axios.get<{ data: Todo[] }>(`${API_URL}/api/todos`);
+            const data = response.data.data;
+            setTodos(data);
+            setExploreTodos(data);
         } catch (error) {
-            console.error('Failed to fetch todos', error);
+            console.error('Failed to fetch todos:', error);
         }
     };
 
@@ -42,12 +40,33 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
         );
     };
 
-    useEffect(() => {
-        fetchTodos();
-    }, []);
+    const addToExplore = (todo: Todo) => {
+        setExploreTodos((prev) => [...prev, todo]);
+    };
+
+    const deleteTodo = async (id: string) => {
+        try {
+            // Hapus dari API
+            await axios.delete(`${API_URL}/api/todos/${id}`);
+            // Hapus dari state
+            setTodos((prevTodos) => prevTodos.filter((todo) => todo._id !== id));
+            setExploreTodos((prevTodos) => prevTodos.filter((todo) => todo._id !== id));
+        } catch (error) {
+            console.error('Failed to delete todo:', error);
+        }
+    };
 
     return (
-        <TodoContext.Provider value={{ todos, fetchTodos, updateTodo }}>
+        <TodoContext.Provider
+            value={{
+                todos,
+                exploreTodos,
+                fetchTodos,
+                updateTodo,
+                addToExplore,
+                deleteTodo,
+            }}
+        >
             {children}
         </TodoContext.Provider>
     );

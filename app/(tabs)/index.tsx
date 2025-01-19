@@ -75,7 +75,7 @@ const TodosScreen = () => {
     return (
         <PaperProvider>
             <ThemedView style={styles.container}>
-                <ThemedText style={styles.title} type="title">ToDo List</ThemedText>
+                <ThemedText style={styles.title} type="title">Halaman Kontak</ThemedText>
                 {loading ? (
                     <ActivityIndicator style={styles.loading} animating={true}/>
                 ) : (
@@ -103,7 +103,7 @@ const TodosScreen = () => {
                                    mode="outlined"/>
                         <TextInput label="Description" value={description} onChangeText={setDescription}
                                    style={styles.input} mode="outlined" multiline/>
-                        <Button mode="contained" onPress={handleAddTodo} style={styles.addButton}>Add Todo</Button>
+                        <Button mode="contained" onPress={handleAddTodo} style={styles.addButton}>Add Contact</Button>
                         <Button onPress={() => setIsAdding(false)} style={styles.cancelButton}>Cancel</Button>
                     </KeyboardAvoidingView>
                 )}
